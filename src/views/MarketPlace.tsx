@@ -9,12 +9,12 @@ import {
     Grid,
     RadioGroup,
     FormControl,
-    SelectChangeEvent,
 } from '@mui/material';
 import CustomTextField from '../components/custom-elements/CustomTextField';
 import CustomRadio from '../components/custom-elements/CustomRadio';
 import CustomFormLabel from '../components/custom-elements/CustomFormLabel';
 import CheckboxesAutocomplete from '../components/custom-elements/CheckboxesAutocomplete';
+import useForm from '../hooks/useForm';
 
 const libraries: any = {
     "javascript": [
@@ -44,6 +44,11 @@ const FbDefaultForm = () => {
         checkedB: false,
     });
     const [dependencies, setDependencies] = React.useState([]);
+    const { values, setValue } = useForm({
+        name: "",
+        version: "",
+        description: ""
+    })
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setState({ ...state, [event.target.name]: event.target.checked });
@@ -99,6 +104,9 @@ const FbDefaultForm = () => {
                                     variant="outlined"
                                     fullWidth
                                     size="small"
+                                    value={values.name}
+                                    name="name"
+                                    onChange={e => setValue(e)}
                                 />
 
                                 <CustomFormLabel htmlFor="version-value">Version</CustomFormLabel>
@@ -107,6 +115,9 @@ const FbDefaultForm = () => {
                                     variant="outlined"
                                     fullWidth
                                     size="small"
+                                    value={values.version}
+                                    name="version"
+                                    onChange={e => setValue(e)}
                                 />
 
                                 <CustomFormLabel htmlFor="derscription-value">Description</CustomFormLabel>
@@ -118,6 +129,9 @@ const FbDefaultForm = () => {
                                     variant="outlined"
                                     fullWidth
                                     size="small"
+                                    value={values.description}
+                                    name="description"
+                                    onChange={e => setValue(e)}
                                 />
                                 <Typography
                                     color="textSecondary"
