@@ -16,45 +16,41 @@ import CustomRadio from '../components/custom-elements/CustomRadio';
 import CustomFormLabel from '../components/custom-elements/CustomFormLabel';
 import CheckboxesAutocomplete from '../components/custom-elements/CheckboxesAutocomplete';
 
-const dependencies = [
-    { title: 'Tech 1', installer: "https://www.npmjs.com/package/react-router-dom" },
-    { title: 'Tech 2', installer: "https://www.npmjs.com/package/react-router-dom" },
-    { title: 'Tech 3', installer: "https://www.npmjs.com/package/react-router-dom" },
-    { title: 'Tech 4', installer: "https://www.npmjs.com/package/react-router-dom" },
-    { title: 'Tech 5', installer: "https://www.npmjs.com/package/react-router-dom" },
-    { title: 'Tech 6', installer: "https://www.npmjs.com/package/react-router-dom" },
-    { title: 'Tech 7', installer: "https://www.npmjs.com/package/react-router-dom" },
-    { title: 'Tech 8', installer: "https://www.npmjs.com/package/react-router-dom" },
-    { title: 'Tech 9', installer: "https://www.npmjs.com/package/react-router-dom" },
-    { title: 'Tech 10', installer: "https://www.npmjs.com/package/react-router-dom" },
-    { title: 'Tech 11', installer: "https://www.npmjs.com/package/react-router-dom" },
-    { title: 'Tech 12', installer: "https://www.npmjs.com/package/react-router-dom" },
-    { title: 'Tech 13', installer: "https://www.npmjs.com/package/react-router-dom" },
-    { title: 'Tech 14', installer: "https://www.npmjs.com/package/react-router-dom" },
-    { title: 'Tech 15', installer: "https://www.npmjs.com/package/react-router-dom" },
-];
+const libraries: any = {
+    "javascript": [
+        { title: 'Tech 1', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 1" },
+        { title: 'Tech 2', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 2" },
+        { title: 'Tech 3', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 3" },
+        { title: 'Tech 4', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 4" },
+        { title: 'Tech 5', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 5" },
+        { title: 'Tech 6', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 6" },
+        { title: 'Tech 7', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 7" },
+    ],
+    "typescript": [
+        { title: 'Tech 8', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 8" },
+        { title: 'Tech 9', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 9" },
+        { title: 'Tech 10', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 10" },
+        { title: 'Tech 11', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 11" },
+        { title: 'Tech 12', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 12" },
+        { title: 'Tech 13', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 13" },
+        { title: 'Tech 14', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 14" },
+        { title: 'Tech 15', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 15" },
+    ]
+}
 
 const FbDefaultForm = () => {
     const [state, setState] = React.useState({
         checkedA: false,
         checkedB: false,
-        checkedC: false,
     });
+    const [dependencies, setDependencies] = React.useState([]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
 
-    const [value, setValue] = React.useState('');
-
     const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value);
-    };
-
-    const [number, setNumber] = React.useState('');
-
-    const handleChange3 = (event: SelectChangeEvent<string>) => {
-        setNumber(event.target.value);
+        setDependencies(libraries[event.target.value])
     };
 
     return (
@@ -139,16 +135,15 @@ const FbDefaultForm = () => {
                                     <RadioGroup
                                         aria-label="gender"
                                         name="gender1"
-                                        value={value}
                                         onChange={handleChange2}
                                     >
                                         <FormControlLabel
-                                            value="radio1"
+                                            value="javascript"
                                             control={<CustomRadio />}
                                             label="JavaScript"
                                         />
                                         <FormControlLabel
-                                            value="radio2"
+                                            value="typescript"
                                             control={<CustomRadio />}
                                             label="TypeScript"
                                         />
@@ -166,7 +161,7 @@ const FbDefaultForm = () => {
                                 >
                                     Dependencies
                                 </Typography>
-                                <CheckboxesAutocomplete list={dependencies}/>
+                                <CheckboxesAutocomplete list={dependencies} />
                             </Grid>
                         </Grid>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
