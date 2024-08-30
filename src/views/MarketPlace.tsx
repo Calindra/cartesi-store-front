@@ -2,7 +2,6 @@ import React from 'react';
 import {
     Card,
     CardContent,
-    Divider,
     Box,
     Typography,
     FormControlLabel,
@@ -10,34 +9,29 @@ import {
     Grid,
     RadioGroup,
     FormControl,
-    MenuItem,
-    Grid2,
     SelectChangeEvent,
 } from '@mui/material';
 import CustomTextField from '../components/custom-elements/CustomTextField';
-import CustomSelect from '../components/custom-elements/CustomSelect';
-import CustomCheckbox from '../components/custom-elements/CustomCheckbox';
 import CustomRadio from '../components/custom-elements/CustomRadio';
 import CustomFormLabel from '../components/custom-elements/CustomFormLabel';
 import CheckboxesAutocomplete from '../components/custom-elements/CheckboxesAutocomplete';
 
-const numbers = [
-    {
-        value: 'one',
-        label: 'One',
-    },
-    {
-        value: 'two',
-        label: 'Two',
-    },
-    {
-        value: 'three',
-        label: 'Three',
-    },
-    {
-        value: 'four',
-        label: 'Four',
-    },
+const dependencies = [
+    { title: 'Tech 1', installer: "https://www.npmjs.com/package/react-router-dom" },
+    { title: 'Tech 2', installer: "https://www.npmjs.com/package/react-router-dom" },
+    { title: 'Tech 3', installer: "https://www.npmjs.com/package/react-router-dom" },
+    { title: 'Tech 4', installer: "https://www.npmjs.com/package/react-router-dom" },
+    { title: 'Tech 5', installer: "https://www.npmjs.com/package/react-router-dom" },
+    { title: 'Tech 6', installer: "https://www.npmjs.com/package/react-router-dom" },
+    { title: 'Tech 7', installer: "https://www.npmjs.com/package/react-router-dom" },
+    { title: 'Tech 8', installer: "https://www.npmjs.com/package/react-router-dom" },
+    { title: 'Tech 9', installer: "https://www.npmjs.com/package/react-router-dom" },
+    { title: 'Tech 10', installer: "https://www.npmjs.com/package/react-router-dom" },
+    { title: 'Tech 11', installer: "https://www.npmjs.com/package/react-router-dom" },
+    { title: 'Tech 12', installer: "https://www.npmjs.com/package/react-router-dom" },
+    { title: 'Tech 13', installer: "https://www.npmjs.com/package/react-router-dom" },
+    { title: 'Tech 14', installer: "https://www.npmjs.com/package/react-router-dom" },
+    { title: 'Tech 15', installer: "https://www.npmjs.com/package/react-router-dom" },
 ];
 
 const FbDefaultForm = () => {
@@ -172,7 +166,7 @@ const FbDefaultForm = () => {
                                 >
                                     Dependencies
                                 </Typography>
-                                <CheckboxesAutocomplete />
+                                <CheckboxesAutocomplete list={dependencies}/>
                             </Grid>
                         </Grid>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>

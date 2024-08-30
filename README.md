@@ -1,7 +1,6 @@
 # Cartesi Store Front
 
 
-
 ## How to run
 
 Start the frontend
