@@ -39,19 +39,16 @@ const libraries: any = {
 }
 
 const FbDefaultForm = () => {
-    const [state, setState] = React.useState({
-        checkedA: false,
-        checkedB: false,
-    });
     const [dependencies, setDependencies] = React.useState([]);
+    const [dependenciesDescription, setDependenciesDescription] = React.useState([]);
     const { values, setValue } = useForm({
         name: "",
         version: "",
         description: ""
     })
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
+    const handleChange = (event: React.ChangeEvent<{}>, values: any[]) => {
+        setDependenciesDescription(values as any)
     };
 
     const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -175,7 +172,7 @@ const FbDefaultForm = () => {
                                 >
                                     Dependencies
                                 </Typography>
-                                <CheckboxesAutocomplete list={dependencies} />
+                                <CheckboxesAutocomplete list={dependencies} handleChange={handleChange} />
                             </Grid>
                         </Grid>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>

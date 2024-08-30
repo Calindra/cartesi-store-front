@@ -8,15 +8,17 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 interface CheckboxesAutocompleteProps {
   list: any[]
+  handleChange: any
 }
 
-const CheckboxesAutocomplete = ({ list }: CheckboxesAutocompleteProps) => (
+const CheckboxesAutocomplete = ({ list, handleChange: change }: CheckboxesAutocompleteProps) => (
   <Autocomplete
     multiple
     id="checkboxes-tags-demo"
     options={list}
     disableCloseOnSelect
     getOptionLabel={(option) => option.title}
+    onChange={change}
     renderOption={(props, option, { selected }) => (
       <li {...props}>
         <Checkbox
@@ -30,7 +32,7 @@ const CheckboxesAutocomplete = ({ list }: CheckboxesAutocompleteProps) => (
     )}
     fullWidth
     renderInput={(params) => (
-      <TextField {...params} size="small"  aria-label="Favorites" />
+      <TextField {...params} size="small" aria-label="Favorites" />
     )}
   />
 );
