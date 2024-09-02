@@ -2,16 +2,10 @@ import { useState } from 'react';
 import {
     Typography,
     Box,
-    Table,
-    TableBody,
-    TableRow,
-    TableCell,
     IconButton,
     Tooltip,
-    Divider,
 } from '@mui/material';
 import FeatherIcon from 'feather-icons-react';
-import DashboardCard from '../base-card/DashboardCard';
 
 const items = [
     {
@@ -35,6 +29,49 @@ const items = [
         description: 'Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.',
     }
 ];
+
+const DeletableItem = ({ product }: any) => {
+    return (
+        <Box
+            sx={{
+                pl: 0,
+            }}
+        >
+            <Box display="flex" alignItems="center">
+                <Box
+                    sx={{
+                        mb: 2,
+                        width: "90%"
+                    }}
+                >
+                    <Typography variant="h5">{product.name}</Typography>
+                    <Typography color="textSecondary" variant="h6" fontWeight="400">
+                        {product.description}
+                    </Typography>
+                </Box>
+            </Box>
+        </Box>
+    )
+}
+
+const TrashComponent = ({ product, deleteHandler }: any) => {
+    return (
+        <Box>
+            <Tooltip title="Delete" placement="top">
+                <IconButton onClick={() => deleteHandler(product.id)}>
+                    <FeatherIcon
+                        icon="trash"
+                        width="18"
+                        height="18"
+                        sx={{
+                            color: (theme: any) => theme.palette.grey.A200,
+                        }}
+                    />
+                </IconButton>
+            </Tooltip>
+        </Box>
+    )
+}
 
 const DeletableItemList = () => {
     const [products, setProducts] = useState(items);
@@ -64,43 +101,11 @@ const DeletableItemList = () => {
                                 borderBottom: "1px solid #4c4c4c",
                                 mb: 2
                             }}>
-                            <Box
-                                sx={{
-                                    pl: 0,
-                                }}
-                            >
-                                <Box display="flex" alignItems="center">
-                                    <Box
-                                        sx={{
-                                            mb: 2,
-                                            width: "90%"
-                                        }}
-                                    >
-                                        <Typography variant="h5">{product.name}</Typography>
-                                        <Typography color="textSecondary" variant="h6" fontWeight="400">
-                                            {product.description}
-                                        </Typography>
-                                    </Box>
-                                </Box>
-                            </Box>
-                            <Box>
-                                <Tooltip title="Delete" placement="top">
-                                    <IconButton onClick={() => deleteHandler(product.id)}>
-                                        <FeatherIcon
-                                            icon="trash"
-                                            width="18"
-                                            height="18"
-                                            sx={{
-                                                color: (theme: any) => theme.palette.grey.A200,
-                                            }}
-                                        />
-                                    </IconButton>
-                                </Tooltip>
-                            </Box>
+                            <DeletableItem product={product} />
+                            <TrashComponent product={product} deleteHandler={deleteHandler} />
                         </Box>
                     ))}
                 </Box>
-
             </Box>
         </>
     );
