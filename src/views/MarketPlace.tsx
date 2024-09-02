@@ -17,30 +17,23 @@ import CheckboxesAutocomplete from '../components/custom-elements/CheckboxesAuto
 import useForm from '../hooks/useForm';
 
 const libraries: any = {
-    "javascript": [
-        { title: 'Tech 1', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 1" },
-        { title: 'Tech 2', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 2" },
-        { title: 'Tech 3', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 3" },
-        { title: 'Tech 4', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 4" },
-        { title: 'Tech 5', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 5" },
-        { title: 'Tech 6', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 6" },
-        { title: 'Tech 7', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 7" },
+    "Javascript": [
+        { title: 'express', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 1" },
+        { title: 'axios', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 2" },
+        { title: 'cartesify', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 3" },
     ],
-    "typescript": [
-        { title: 'Tech 8', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 8" },
-        { title: 'Tech 9', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 9" },
-        { title: 'Tech 10', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 10" },
-        { title: 'Tech 11', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 11" },
-        { title: 'Tech 12', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 12" },
-        { title: 'Tech 13', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 13" },
-        { title: 'Tech 14', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 14" },
-        { title: 'Tech 15', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 15" },
+    "Typescript": [
+        { title: 'express', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 1" },
+        { title: 'axios', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 2" },
+        { title: 'cartesify', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 3" },
+        { title: 'viem', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 3" },
     ]
 }
 
 const FbDefaultForm = () => {
     const [dependencies, setDependencies] = React.useState([]);
     const [dependenciesDescription, setDependenciesDescription] = React.useState([]);
+    const [language, setLanguage] = React.useState("Javascript")
     const { values, setValue } = useForm({
         name: "",
         version: "",
@@ -53,7 +46,37 @@ const FbDefaultForm = () => {
 
     const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDependencies(libraries[event.target.value])
+        setLanguage(event.target.value)
     };
+
+    const handleClick = async () => {
+        try {
+
+            const dependenciesTitles = dependenciesDescription.map((dep: any) => dep.title);
+
+            const response = await fetch('http://localhost:8080/download-template', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ language, name: values.name, version: values.version, description: values.description, dependencies: dependenciesTitles }),
+            });
+      
+            if (!response.ok) {
+              throw new Error('Erro ao baixar o template');
+            }
+      
+            // Converter a resposta em blob
+            const blob = await response.blob();
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = `${values.name}.zip`;
+            link.click();
+          } catch (error) {
+            console.error('Erro na requisição:', error);
+            alert('Erro ao baixar o template');
+          }
+    }
 
     return (
         <div>
@@ -149,14 +172,14 @@ const FbDefaultForm = () => {
                                         onChange={handleChange2}
                                     >
                                         <FormControlLabel
-                                            value="javascript"
-                                            control={<CustomRadio />}
-                                            label="JavaScript"
+                                            value="Javascript"
+                                            control={<CustomRadio checked={language === 'Javascript'} />}
+                                            label="Javascript"
                                         />
                                         <FormControlLabel
-                                            value="typescript"
-                                            control={<CustomRadio />}
-                                            label="TypeScript"
+                                            value="Typescript"
+                                            control={<CustomRadio checked={language === 'Typescript'} />}
+                                            label="Typescript"
                                         />
                                     </RadioGroup>
                                 </FormControl>
@@ -176,7 +199,7 @@ const FbDefaultForm = () => {
                             </Grid>
                         </Grid>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <Button color="primary" variant="contained">
+                            <Button color="primary" variant="contained" onClick={handleClick}>
                                 Generate
                             </Button>
                         </div>
