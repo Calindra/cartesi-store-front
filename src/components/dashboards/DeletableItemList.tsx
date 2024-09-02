@@ -7,28 +7,6 @@ import {
 } from '@mui/material';
 import FeatherIcon from 'feather-icons-react';
 
-const items = [
-    {
-        id: 1,
-        name: 'Axios',
-        description: 'Axios is a promise-based HTTP Client for node.js and the browser. It is isomorphic (= it can run in the browser and nodejs with the same codebase). On the server-side it uses the native node.js http module, while on the client (browser) it uses XMLHttpRequests.',
-    },
-    {
-        id: 2,
-        name: 'Viem',
-        description: 'viem is a TypeScript interface for Ethereum that provides low-level stateless primitives for interacting with Ethereum. viem is focused on developer experience, stability, bundle size, and performance',
-    },
-    {
-        id: 3,
-        name: 'Cartesify',
-        description: 'Cartesify is a Sunodo template for Typescript Cartesi DApps. It uses node to execute the backend application.',
-    },
-    {
-        id: 4,
-        name: 'Express',
-        description: 'Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.',
-    }
-];
 
 const DeletableItem = ({ product }: any) => {
     return (
@@ -73,13 +51,7 @@ const TrashComponent = ({ product, deleteHandler }: any) => {
     )
 }
 
-const DeletableItemList = () => {
-    const [products, setProducts] = useState(items);
-
-    const deleteHandler = (id: number) => {
-        const updateProducts = products.filter((ind) => ind.id !== id);
-        setProducts(updateProducts);
-    };
+const DeletableItemList = ({ items, deleteItem}: any) => {
     return (
         <>
             <Box
@@ -92,8 +64,8 @@ const DeletableItemList = () => {
                 }}
             >
                 <Box>
-                    {products.map((product) => (
-                        <Box key={product.id}
+                    {items.map((item: any) => (
+                        <Box key={item.id}
                             sx={{
                                 display: "flex",
                                 justifyContent: "space-between",
@@ -101,8 +73,8 @@ const DeletableItemList = () => {
                                 borderBottom: "1px solid #4c4c4c",
                                 mb: 2
                             }}>
-                            <DeletableItem product={product} />
-                            <TrashComponent product={product} deleteHandler={deleteHandler} />
+                            <DeletableItem product={item} />
+                            <TrashComponent product={item} deleteHandler={deleteItem} />
                         </Box>
                     ))}
                 </Box>

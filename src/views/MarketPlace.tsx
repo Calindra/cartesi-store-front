@@ -31,10 +31,34 @@ const libraries: any = {
     ]
 }
 
+const items = [
+    {
+        id: 1,
+        name: 'Axios',
+        description: 'Axios is a promise-based HTTP Client for node.js and the browser. It is isomorphic (= it can run in the browser and nodejs with the same codebase). On the server-side it uses the native node.js http module, while on the client (browser) it uses XMLHttpRequests.',
+    },
+    {
+        id: 2,
+        name: 'Viem',
+        description: 'viem is a TypeScript interface for Ethereum that provides low-level stateless primitives for interacting with Ethereum. viem is focused on developer experience, stability, bundle size, and performance',
+    },
+    {
+        id: 3,
+        name: 'Cartesify',
+        description: 'Cartesify is a Sunodo template for Typescript Cartesi DApps. It uses node to execute the backend application.',
+    },
+    {
+        id: 4,
+        name: 'Express',
+        description: 'Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.',
+    }
+];
+
 const FbDefaultForm = () => {
     const [dependencies, setDependencies] = React.useState([]);
     const [dependenciesDescription, setDependenciesDescription] = React.useState([]);
     const [language, setLanguage] = React.useState("Javascript")
+    const [products, setProducts] = React.useState(items);
     const { values, setValue } = useForm({
         name: "",
         version: "",
@@ -78,6 +102,11 @@ const FbDefaultForm = () => {
             alert('Erro ao baixar o template');
         }
     }
+
+    const deleteHandler = (id: number) => {
+        const updateProducts = products.filter((ind: any) => ind.id !== id);
+        setProducts(updateProducts);
+    };
 
     return (
         <div>
@@ -197,7 +226,7 @@ const FbDefaultForm = () => {
                                     Dependencies
                                 </Typography>
                                 <CheckboxesAutocomplete list={dependencies} handleChange={handleChange} />
-                                <DeletableItemList />
+                                <DeletableItemList items={products} deleteItem={deleteHandler} />
                             </Grid>
                         </Grid>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
