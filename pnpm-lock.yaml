@@ -17,6 +17,9 @@ dependencies:
   '@mui/material':
     specifier: ^6.0.1
     version: 6.0.1(@emotion/react@11.13.3)(@emotion/styled@11.13.0)(@types/react@18.3.5)(react-dom@18.3.1)(react@18.3.1)
+  feather-icons-react:
+    specifier: ^0.7.0
+    version: 0.7.0(react-dom@18.3.1)(react@18.3.1)
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -1562,6 +1565,16 @@ packages:
     dependencies:
       reusify: 1.0.4
     dev: true
+
+  /feather-icons-react@0.7.0(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-IAHpKhrpxag3gKWcZYC7zmewfjMQLI34tmrpH3+52mvC61Q4FRBjJXl1WmPyKefGnk3sbS0wiqWDD3QIHiJBaA==}
+    peerDependencies:
+      react: ^16.8.4 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.4 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    dev: false
 
   /file-entry-cache@8.0.0:
     resolution: {integrity: sha512-XXTUwCvisa5oacNGRP9SfNtYBNAMi+RPwBFmblZEF7N7swHYQS6/Zfk7SRwx4D5j3CH211YNRco1DEMNVfZCnQ==}

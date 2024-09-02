@@ -15,6 +15,7 @@ import CustomRadio from '../components/custom-elements/CustomRadio';
 import CustomFormLabel from '../components/custom-elements/CustomFormLabel';
 import CheckboxesAutocomplete from '../components/custom-elements/CheckboxesAutocomplete';
 import useForm from '../hooks/useForm';
+import DependenciesTable from '../components/dashboards/DependenciesTable';
 
 const libraries: any = {
     "Javascript": [
@@ -55,27 +56,27 @@ const FbDefaultForm = () => {
             const dependenciesTitles = dependenciesDescription.map((dep: any) => dep.title);
 
             const response = await fetch('http://localhost:8080/download-template', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ language, name: values.name, version: values.version, description: values.description, dependencies: dependenciesTitles }),
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ language, name: values.name, version: values.version, description: values.description, dependencies: dependenciesTitles }),
             });
-      
+
             if (!response.ok) {
-              throw new Error('Erro ao baixar o template');
+                throw new Error('Erro ao baixar o template');
             }
-      
+
             // Converter a resposta em blob
             const blob = await response.blob();
             const link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
             link.download = `${values.name}.zip`;
             link.click();
-          } catch (error) {
+        } catch (error) {
             console.error('Erro na requisição:', error);
             alert('Erro ao baixar o template');
-          }
+        }
     }
 
     return (
@@ -196,6 +197,7 @@ const FbDefaultForm = () => {
                                     Dependencies
                                 </Typography>
                                 <CheckboxesAutocomplete list={dependencies} handleChange={handleChange} />
+                                <DependenciesTable />
                             </Grid>
                         </Grid>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
