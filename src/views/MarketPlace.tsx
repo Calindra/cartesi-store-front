@@ -15,7 +15,7 @@ import CustomRadio from '../components/custom-elements/CustomRadio';
 import CustomFormLabel from '../components/custom-elements/CustomFormLabel';
 import CheckboxesAutocomplete from '../components/custom-elements/CheckboxesAutocomplete';
 import useForm from '../hooks/useForm';
-import DependenciesTable from '../components/dashboards/DependenciesTable';
+import DeletableItemList from '../components/dashboards/DeletableItemList';
 
 const libraries: any = {
     "Javascript": [
@@ -197,7 +197,7 @@ const FbDefaultForm = () => {
                                     Dependencies
                                 </Typography>
                                 <CheckboxesAutocomplete list={dependencies} handleChange={handleChange} />
-                                <DependenciesTable />
+                                <DeletableItemList />
                             </Grid>
                         </Grid>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
