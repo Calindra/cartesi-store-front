@@ -21,7 +21,7 @@ const DeletableItem = ({ product }: any) => {
                         width: "90%"
                     }}
                 >
-                    <Typography variant="h5">{product.name}</Typography>
+                    <Typography variant="h5">{product.title}</Typography>
                     <Typography color="textSecondary" variant="h6" fontWeight="400">
                         {product.description}
                     </Typography>

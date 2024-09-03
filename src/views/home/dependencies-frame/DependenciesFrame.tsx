@@ -3,24 +3,25 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import DeletableItemList from '../../../components/dashboards/DeletableItemList';
 import { useState } from 'react';
+import { Dependencie } from '../../../models/dependencie';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 interface DependenciesFrameProps {
-  list: any[]
+  list: Dependencie[]
 }
 
 const DependenciesFrame = ({ list }: DependenciesFrameProps) => {
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState<Dependencie[]>([]);
 
-  const handleChange = (event, newValue) => {
-    setSelectedItems(newValue);
+  const updateDependencieList = (_: React.SyntheticEvent, updatedDependencieList: Dependencie[]) => {
+    setSelectedItems(updatedDependencieList);
   };
 
   const handleDeleteItem = (id: number) => {
     setSelectedItems((prevSelectedItems) =>
-      prevSelectedItems.filter((item: any) => item.id !== id)
+      prevSelectedItems.filter((item: Dependencie) => item.id !== id)
     );
   };
 
@@ -32,7 +33,7 @@ const DependenciesFrame = ({ list }: DependenciesFrameProps) => {
         options={list}
         disableCloseOnSelect
         getOptionLabel={(option) => option.title}
-        onChange={handleChange}
+        onChange={updateDependencieList}
         value={selectedItems}
         renderOption={(props, option, { selected }) => (
           <li {...props}>
@@ -50,11 +51,7 @@ const DependenciesFrame = ({ list }: DependenciesFrameProps) => {
           return (<TextField {...params} size="small" aria-label="Favorites" />)
         }}
       />
-      <DeletableItemList items={selectedItems.map((item: any) => ({
-        id: item.id,
-        name: item.title,
-        description: item.description,
-      }))}
+      <DeletableItemList items={selectedItems}
         deleteItem={handleDeleteItem} />
     </>
   )
