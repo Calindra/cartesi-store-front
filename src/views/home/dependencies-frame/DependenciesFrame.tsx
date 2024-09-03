@@ -2,7 +2,6 @@ import { TextField, Checkbox, Autocomplete } from '@mui/material';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import DeletableItemList from '../../../components/dashboards/DeletableItemList';
-import { useState } from 'react';
 import { Dependencie } from '../../../models/dependencie';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -10,19 +9,19 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 interface DependenciesFrameProps {
   list: Dependencie[]
+  selectedItems: Dependencie[]
+  setSelectedItems: (items: Dependencie[]) => void;
+
 }
 
-const DependenciesFrame = ({ list }: DependenciesFrameProps) => {
-  const [selectedItems, setSelectedItems] = useState<Dependencie[]>([]);
-
+const DependenciesFrame = ({ list, selectedItems, setSelectedItems }: DependenciesFrameProps) => {
   const updateDependencieList = (_: React.SyntheticEvent, updatedDependencieList: Dependencie[]) => {
     setSelectedItems(updatedDependencieList);
   };
 
   const handleDeleteItem = (id: number) => {
-    setSelectedItems((prevSelectedItems) =>
-      prevSelectedItems.filter((item: Dependencie) => item.id !== id)
-    );
+    const list = selectedItems.filter(item => item.id !== id)
+    setSelectedItems(list);
   };
 
   return (

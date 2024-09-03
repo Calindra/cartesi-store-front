@@ -38,8 +38,8 @@ const libraries: Libraries = {
 }
 
 const MarketPlace = () => {
-    const [dependencies, setDependencies] = React.useState([] as Dependencie[]);
-    const [dependenciesDescription, setDependenciesDescription] = React.useState([]);
+    const [dependencies, setDependencies] = React.useState<Dependencie[]>([]);
+    const [selectedItems, setSelectedItems] = React.useState<Dependencie[]>([]);
     const [language, setLanguage] = React.useState("Javascript")
     const { values, setValue } = useForm({
         name: "",
@@ -60,7 +60,7 @@ const MarketPlace = () => {
     const handleClick = async () => {
         try {
 
-            const dependenciesTitles = dependenciesDescription.map((dep: Dependencie) => dep.title);
+            const dependenciesTitles = selectedItems.map((dep: Dependencie) => dep.title);
 
             const response = await fetch('http://localhost:8080/download-template', {
                 method: 'POST',
@@ -203,7 +203,7 @@ const MarketPlace = () => {
                                 >
                                     Dependencies
                                 </Typography>
-                                <DependenciesFrame list={dependencies} />
+                                <DependenciesFrame list={dependencies} selectedItems={selectedItems} setSelectedItems={setSelectedItems} />
                             </Grid>
                         </Grid>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
