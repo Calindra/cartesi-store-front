@@ -19,15 +19,15 @@ import DeletableItemList from '../components/dashboards/DeletableItemList';
 
 const libraries: any = {
     "Javascript": [
-        { title: 'express', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 1" },
-        { title: 'axios', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 2" },
-        { title: 'cartesify', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 3" },
+        { id: 1, title: 'express', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 1" },
+        { id: 2, title: 'axios', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 2" },
+        { id: 3, title: 'cartesify', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 3" },
     ],
     "Typescript": [
-        { title: 'express', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 1" },
-        { title: 'axios', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 2" },
-        { title: 'cartesify', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 3" },
-        { title: 'viem', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 3" },
+        { id: 4, title: 'express', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 4" },
+        { id: 5, title: 'axios', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 5" },
+        { id: 6, title: 'cartesify', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 6" },
+        { id: 7, title: 'viem', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 7" },
     ]
 }
 
@@ -56,7 +56,8 @@ const items = [
 
 const FbDefaultForm = () => {
     const [dependencies, setDependencies] = React.useState([]);
-    
+    const [userDefinedDependencies, setUserDefinedDependencies] = React.useState([]);
+
     const [dependenciesDescription, setDependenciesDescription] = React.useState([]);
     const [language, setLanguage] = React.useState("Javascript")
     const [products, setProducts] = React.useState(items);
@@ -66,7 +67,8 @@ const FbDefaultForm = () => {
         description: ""
     })
 
-    const handleChange = (event: React.ChangeEvent<{}>, values: any[]) => {
+    const addDependencieToList = (event: React.ChangeEvent<{}>, values: any[]) => {
+        console.log("VALUES: ", values)
         setDependenciesDescription(values as any)
     };
 
@@ -76,8 +78,6 @@ const FbDefaultForm = () => {
     };
 
     const onLoadDepenciesFromLanguage = (language: string) => {
-        console.log("Language: ", language)
-        console.log("List: ", libraries[language])
         setDependencies(libraries[language])
     }
 
@@ -232,8 +232,8 @@ const FbDefaultForm = () => {
                                 >
                                     Dependencies
                                 </Typography>
-                                <CheckboxesAutocomplete list={dependencies} handleChange={handleChange} />
-                                <DeletableItemList items={products} deleteItem={deleteHandler} />
+                                <CheckboxesAutocomplete list={dependencies} handleChange={addDependencieToList} />
+                                {/* <DeletableItemList items={products} deleteItem={deleteHandler} /> */}
                             </Grid>
                         </Grid>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
