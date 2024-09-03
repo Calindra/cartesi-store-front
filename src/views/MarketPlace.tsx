@@ -56,6 +56,7 @@ const items = [
 
 const FbDefaultForm = () => {
     const [dependencies, setDependencies] = React.useState([]);
+    
     const [dependenciesDescription, setDependenciesDescription] = React.useState([]);
     const [language, setLanguage] = React.useState("Javascript")
     const [products, setProducts] = React.useState(items);
@@ -69,10 +70,16 @@ const FbDefaultForm = () => {
         setDependenciesDescription(values as any)
     };
 
-    const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDependencies(libraries[event.target.value])
+    const changeLanguage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        onLoadDepenciesFromLanguage(event.target.value)
         setLanguage(event.target.value)
     };
+
+    const onLoadDepenciesFromLanguage = (language: string) => {
+        console.log("Language: ", language)
+        console.log("List: ", libraries[language])
+        setDependencies(libraries[language])
+    }
 
     const handleClick = async () => {
         try {
@@ -199,7 +206,7 @@ const FbDefaultForm = () => {
                                     <RadioGroup
                                         aria-label="gender"
                                         name="gender1"
-                                        onChange={handleChange2}
+                                        onChange={changeLanguage}
                                     >
                                         <FormControlLabel
                                             value="Javascript"
