@@ -1,17 +1,17 @@
 import { TextField, Checkbox, Autocomplete } from '@mui/material';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import DeletableItemList from '../dashboards/DeletableItemList';
+import DeletableItemList from '../../../components/dashboards/DeletableItemList';
 import { useState } from 'react';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-interface CheckboxesAutocompleteProps {
+interface DependenciesFrameProps {
   list: any[]
 }
 
-const CheckboxesAutocomplete = ({ list }: CheckboxesAutocompleteProps) => {
+const DependenciesFrame = ({ list }: DependenciesFrameProps) => {
   const [selectedItems, setSelectedItems] = useState([]);
 
   const handleChange = (event, newValue) => {
@@ -60,4 +60,4 @@ const CheckboxesAutocomplete = ({ list }: CheckboxesAutocompleteProps) => {
   )
 };
 
-export default CheckboxesAutocomplete;
+export default DependenciesFrame;
