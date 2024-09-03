@@ -4,7 +4,7 @@
 // import './App.css'
 import ThemeSettings from "./assets/global/ThemeSettings"
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import MarketPlace from './views/MarketPlace'
+import MarketPlace from './views/home/MarketPlace'
 
 function App() {
   const theme = ThemeSettings();

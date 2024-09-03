@@ -1,27 +1,27 @@
 import { TextField, Checkbox, Autocomplete } from '@mui/material';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import DeletableItemList from '../dashboards/DeletableItemList';
-import { useState } from 'react';
+import DeletableItemList from '../../../components/dashboards/DeletableItemList';
+import { Dependencie } from '../../../models/dependencie';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-interface CheckboxesAutocompleteProps {
-  list: any[]
+interface DependenciesFrameProps {
+  list: Dependencie[]
+  selectedItems: Dependencie[]
+  setSelectedItems: (items: Dependencie[]) => void;
+
 }
 
-const CheckboxesAutocomplete = ({ list }: CheckboxesAutocompleteProps) => {
-  const [selectedItems, setSelectedItems] = useState([]);
-
-  const handleChange = (event, newValue) => {
-    setSelectedItems(newValue);
+const DependenciesFrame = ({ list, selectedItems, setSelectedItems }: DependenciesFrameProps) => {
+  const updateDependencieList = (_: React.SyntheticEvent, updatedDependencieList: Dependencie[]) => {
+    setSelectedItems(updatedDependencieList);
   };
 
   const handleDeleteItem = (id: number) => {
-    setSelectedItems((prevSelectedItems) =>
-      prevSelectedItems.filter((item: any) => item.id !== id)
-    );
+    const list = selectedItems.filter(item => item.id !== id)
+    setSelectedItems(list);
   };
 
   return (
@@ -32,7 +32,7 @@ const CheckboxesAutocomplete = ({ list }: CheckboxesAutocompleteProps) => {
         options={list}
         disableCloseOnSelect
         getOptionLabel={(option) => option.title}
-        onChange={handleChange}
+        onChange={updateDependencieList}
         value={selectedItems}
         renderOption={(props, option, { selected }) => (
           <li {...props}>
@@ -50,14 +50,10 @@ const CheckboxesAutocomplete = ({ list }: CheckboxesAutocompleteProps) => {
           return (<TextField {...params} size="small" aria-label="Favorites" />)
         }}
       />
-      <DeletableItemList items={selectedItems.map((item: any) => ({
-        id: item.id,
-        name: item.title,
-        description: item.description,
-      }))}
-        deleteItem={handleDeleteItem} />
+      <DeletableItemList items={selectedItems}
+        deleteHandler={handleDeleteItem} />
     </>
   )
 };
 
-export default CheckboxesAutocomplete;
+export default DependenciesFrame;

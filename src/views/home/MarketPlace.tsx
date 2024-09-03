@@ -10,29 +10,36 @@ import {
     RadioGroup,
     FormControl,
 } from '@mui/material';
-import CustomTextField from '../components/custom-elements/CustomTextField';
-import CustomRadio from '../components/custom-elements/CustomRadio';
-import CustomFormLabel from '../components/custom-elements/CustomFormLabel';
-import CheckboxesAutocomplete from '../components/custom-elements/CheckboxesAutocomplete';
-import useForm from '../hooks/useForm';
+import CustomTextField from '../../components/custom-elements/CustomTextField';
+import CustomRadio from '../../components/custom-elements/CustomRadio';
+import CustomFormLabel from '../../components/custom-elements/CustomFormLabel';
+import DependenciesFrame from './dependencies-frame/DependenciesFrame';
+import useForm from '../../hooks/useForm';
+import { Dependencie } from '../../models/dependencie';
 
-const libraries: any = {
-    "Javascript": [
-        { id: 1, title: 'express', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 1" },
-        { id: 2, title: 'axios', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 2" },
-        { id: 3, title: 'cartesify', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 3" },
-    ],
-    "Typescript": [
-        { id: 4, title: 'express', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 4" },
-        { id: 5, title: 'axios', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 5" },
-        { id: 6, title: 'cartesify', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 6" },
-        { id: 7, title: 'viem', installer: "https://www.npmjs.com/package/react-router-dom", description: "Something that describe Tech 7" },
-    ]
+const JS_DEPENDENCIES: Dependencie[] = [
+    { id: 1, title: 'express', description: "Something that describe Tech 1" },
+    { id: 2, title: 'axios', description: "Something that describe Tech 2" },
+    { id: 3, title: 'cartesify', description: "Something that describe Tech 3" },
+]
+
+const TS_DEPENDENCIES: Dependencie[] = [
+    { id: 4, title: 'express', description: "Something that describe Tech 4" },
+    { id: 5, title: 'axios', description: "Something that describe Tech 5" },
+    { id: 6, title: 'cartesify', description: "Something that describe Tech 6" },
+    { id: 7, title: 'viem', description: "Something that describe Tech 7" },
+]
+type Libraries = {
+    [key: string]: Dependencie[];
+};
+const libraries: Libraries = {
+    "Javascript": JS_DEPENDENCIES,
+    "Typescript": TS_DEPENDENCIES
 }
 
 const MarketPlace = () => {
-    const [dependencies, setDependencies] = React.useState([]);
-    const [dependenciesDescription, setDependenciesDescription] = React.useState([]);
+    const [dependencies, setDependencies] = React.useState<Dependencie[]>([]);
+    const [selectedItems, setSelectedItems] = React.useState<Dependencie[]>([]);
     const [language, setLanguage] = React.useState("Javascript")
     const { values, setValue } = useForm({
         name: "",
@@ -46,13 +53,14 @@ const MarketPlace = () => {
     };
 
     const onLoadDepenciesFromLanguage = (language: string) => {
-        setDependencies(libraries[language])
+        const choosedList: Dependencie[] = libraries[language]
+        setDependencies(choosedList)
     }
 
     const handleClick = async () => {
         try {
 
-            const dependenciesTitles = dependenciesDescription.map((dep: any) => dep.title);
+            const dependenciesTitles = selectedItems.map((dep: Dependencie) => dep.title);
 
             const response = await fetch('http://localhost:8080/download-template', {
                 method: 'POST',
@@ -195,7 +203,7 @@ const MarketPlace = () => {
                                 >
                                     Dependencies
                                 </Typography>
-                                <CheckboxesAutocomplete list={dependencies} />
+                                <DependenciesFrame list={dependencies} selectedItems={selectedItems} setSelectedItems={setSelectedItems} />
                             </Grid>
                         </Grid>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
