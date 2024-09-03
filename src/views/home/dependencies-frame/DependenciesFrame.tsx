@@ -52,7 +52,7 @@ const DependenciesFrame = ({ list }: DependenciesFrameProps) => {
         }}
       />
       <DeletableItemList items={selectedItems}
-        deleteItem={handleDeleteItem} />
+        deleteHandler={handleDeleteItem} />
     </>
   )
 };

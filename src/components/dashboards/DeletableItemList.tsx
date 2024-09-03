@@ -4,10 +4,22 @@ import {
     IconButton,
     Tooltip,
 } from '@mui/material';
+import { Theme } from '@mui/material/styles';
 import FeatherIcon from 'feather-icons-react';
+import { Dependencie } from '../../models/dependencie';
 
 
-const DeletableItem = ({ product }: any) => {
+interface ItemWithOptionalDeleteHandlerProps<T> {
+    item: T;
+    deleteHandler?: (id: number) => void; // Torne opcional se nem todos os componentes precisarem dele
+}
+
+interface DeletableItemListProps {
+    items: Dependencie[];
+    deleteHandler: (id: number) => void;
+}
+
+const DeletableItem = ({ item }: ItemWithOptionalDeleteHandlerProps<Dependencie>) => {
     return (
         <Box
             sx={{
@@ -21,9 +33,9 @@ const DeletableItem = ({ product }: any) => {
                         width: "90%"
                     }}
                 >
-                    <Typography variant="h5">{product.title}</Typography>
+                    <Typography variant="h5">{item.title}</Typography>
                     <Typography color="textSecondary" variant="h6" fontWeight="400">
-                        {product.description}
+                        {item.description}
                     </Typography>
                 </Box>
             </Box>
@@ -31,17 +43,22 @@ const DeletableItem = ({ product }: any) => {
     )
 }
 
-const TrashComponent = ({ product, deleteHandler }: any) => {
+
+const TrashComponent = ({ item, deleteHandler }: ItemWithOptionalDeleteHandlerProps<Dependencie>) => {
+    const handleDelete = () => {
+        if (deleteHandler) deleteHandler(item.id);
+    };
+
     return (
         <Box>
             <Tooltip title="Delete" placement="top">
-                <IconButton onClick={() => deleteHandler(product.id)}>
+                <IconButton onClick={handleDelete}>
                     <FeatherIcon
                         icon="trash"
                         width="18"
                         height="18"
                         sx={{
-                            color: (theme: any) => theme.palette.grey.A200,
+                            color: (theme: Theme) => theme.palette.grey.A200,
                         }}
                     />
                 </IconButton>
@@ -50,35 +67,34 @@ const TrashComponent = ({ product, deleteHandler }: any) => {
     )
 }
 
-const DeletableItemList = ({ items, deleteItem}: any) => {
+
+const DeletableItemList = ({ items, deleteHandler }: DeletableItemListProps) => {
     return (
-        <>
-            <Box
-                sx={{
-                    overflow: {
-                        xs: 'auto',
-                        sm: 'unset',
-                    },
-                    mt: 2,
-                }}
-            >
-                <Box>
-                    {items.map((item: any) => (
-                        <Box key={item.id}
-                            sx={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                borderBottom: "1px solid #4c4c4c",
-                                mb: 2
-                            }}>
-                            <DeletableItem product={item} />
-                            <TrashComponent product={item} deleteHandler={deleteItem} />
-                        </Box>
-                    ))}
-                </Box>
+        <Box
+            sx={{
+                overflow: {
+                    xs: 'auto',
+                    sm: 'unset',
+                },
+                mt: 2,
+            }}
+        >
+            <Box>
+                {items.map((item: Dependencie) => (
+                    <Box key={item.id}
+                        sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            borderBottom: "1px solid #4c4c4c",
+                            mb: 2
+                        }}>
+                        <DeletableItem item={item} />
+                        <TrashComponent item={item} deleteHandler={() => deleteHandler(item.id)} />
+                    </Box>
+                ))}
             </Box>
-        </>
+        </Box>
     );
 };
 
