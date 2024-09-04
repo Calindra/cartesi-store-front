@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     Card,
     CardContent,
@@ -35,13 +35,17 @@ const TS_DEPENDENCIES: Dependencie[] = [
     { id: 6, title: 'cartesify', description: "Something that describe Tech 6" },
     { id: 7, title: 'viem', description: "Something that describe Tech 7" },
 ]
+
 type Libraries = {
     [key: string]: Dependencie[];
 };
+
 const libraries: Libraries = {
     "Javascript": JS_DEPENDENCIES,
     "Typescript": TS_DEPENDENCIES
 }
+
+const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:5173';
 
 const MarketPlace = () => {
     const [selectedItems, setSelectedItems] = React.useState<Dependencie[]>([]);
@@ -49,11 +53,41 @@ const MarketPlace = () => {
     const [dependencies, setDependencies] = React.useState<Dependencie[]>(libraries[language]);
     const [open, setOpen] = React.useState(false);
     const [copied, setCopied] = React.useState(false);
-    const { values, setValue } = useForm({
+    const { values, setValue, setAllValues } = useForm({
         name: "demo",
         version: "1.0.0",
         description: "Demo project for Cartesi"
     });
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        
+        // Read parameters from URL and update state
+        const urlName = params.get('name');
+        const urlVersion = params.get('version');
+        const urlDescription = params.get('description');
+        const urlLanguage = params.get('language');
+        const urlDependencies = params.get('dependencies');
+
+        setAllValues({
+            name: urlName || values.name,
+            version: urlVersion || values.version,
+            description: urlDescription || values.description
+        });
+
+
+        if (urlLanguage) {
+            setLanguage(urlLanguage);
+            onLoadDepenciesFromLanguage(urlLanguage);
+        }
+        if (urlDependencies) {
+            const dependenciesList: (Dependencie | undefined)[] = urlDependencies
+                .split(',')
+                .map(title => libraries[language]
+                .find(dep => dep.title === title)).filter(Boolean);
+            setSelectedItems(dependenciesList as Dependencie[]);
+        }
+    }, []);
 
     const changeLanguage = (event: React.ChangeEvent<HTMLInputElement>) => {
         onLoadDepenciesFromLanguage(event.target.value)
@@ -71,13 +105,13 @@ const MarketPlace = () => {
     };
 
     const handleCopy = async () => {
-        let shareUrl = getShareLink()
+        const shareUrl = getShareLink()
         try {
             await navigator.clipboard.writeText(shareUrl);
             setCopied(true)
 
         } catch (err) {
-
+            console.log(err)
         }
     };
 
@@ -88,7 +122,19 @@ const MarketPlace = () => {
 
 
     const getShareLink = () => {
-        return "http://google.com"
+        const params = new URLSearchParams();
+
+        if (values.name) params.append("name", values.name);
+        if (language) params.append("language", language);
+        if (values.version) params.append("version", values.version);
+        if (values.description) params.append("description", values.description);
+
+        const dependenciesTitles = selectedItems.map(dep => dep.title);
+        if (dependenciesTitles.length > 0) {
+            params.append("dependencies", dependenciesTitles.join(","));
+        }
+
+        return `${baseUrl}/?${params.toString()}`;
     }
 
     const handleClick = async () => {
@@ -96,6 +142,7 @@ const MarketPlace = () => {
 
             if (!values.name) {
                 alert("Please fill the name of the project");
+                return;
             }
 
             const dependenciesTitles = selectedItems.map((dep: Dependencie) => dep.title);
@@ -262,8 +309,13 @@ const MarketPlace = () => {
                 <DialogTitle>Share Project</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        {`Use this link to share the current configuration. Attributes can be removed from the URL if you want to rely on our defaults. ${getShareLink()}`}
+                        {`Use this link to share the current configuration. Attributes can be removed from the URL if you want to rely on our defaults.}`}
                     </DialogContentText>
+                    <Box sx={{ overflowX: 'auto', mt: 2 }}>
+                        <Typography variant="body2" sx={{ color: '#00F6FF' }}>
+                                {getShareLink()}
+                        </Typography>
+                    </Box>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
