@@ -34,17 +34,21 @@ const TS_DEPENDENCIES: Dependencie[] = [
     { id: 6, title: 'cartesify', description: "Something that describe Tech 6" },
     { id: 7, title: 'viem', description: "Something that describe Tech 7" },
 ]
+
 type Libraries = {
     [key: string]: Dependencie[];
 };
+
 const libraries: Libraries = {
     "Javascript": JS_DEPENDENCIES,
     "Typescript": TS_DEPENDENCIES
 }
 
+const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:5173';
+
 const MarketPlace = () => {
     const [selectedItems, setSelectedItems] = React.useState<Dependencie[]>([]);
-    const [language, setLanguage] = React.useState("Javascript")
+    const [language, setLanguage] = React.useState("Javascript");
     const [dependencies, setDependencies] = React.useState<Dependencie[]>(libraries[language]);
     const [open, setOpen] = React.useState(false);
     const [copied, setCopied] = React.useState(false);
@@ -55,28 +59,27 @@ const MarketPlace = () => {
     });
 
     const changeLanguage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onLoadDepenciesFromLanguage(event.target.value)
-        setLanguage(event.target.value)
+        onLoadDepenciesFromLanguage(event.target.value);
+        setLanguage(event.target.value);
     };
 
     const onLoadDepenciesFromLanguage = (language: string) => {
-        const choosedList: Dependencie[] = libraries[language]
-        setDependencies(choosedList)
+        const choosedList: Dependencie[] = libraries[language];
+        setDependencies(choosedList);
     }
 
     const handleShare = () => {
-        setCopied(false)
+        setCopied(false);
         setOpen(true);
     };
 
     const handleCopy = async () => {
-        let shareUrl = getShareLink()
+        const shareUrl = getShareLink();
         try {
             await navigator.clipboard.writeText(shareUrl);
-            setCopied(true)
-
+            setCopied(true);
         } catch (err) {
-
+            console.error('Erro ao copiar link:', err);
         }
     };
 
@@ -85,17 +88,28 @@ const MarketPlace = () => {
         setCopied(false);
     };
 
-
     const getShareLink = () => {
-        return "http://google.com"
-    }
+        const params = new URLSearchParams();
+
+        if (values.name) params.append("name", values.name);
+        if (language) params.append("language", language);
+        if (values.version) params.append("version", values.version);
+        if (values.description) params.append("description", values.description);
+
+        const dependenciesTitles = selectedItems.map(dep => dep.title);
+        if (dependenciesTitles.length > 0) {
+            params.append("dependencies", dependenciesTitles.join(","));
+        }
+
+        return `${baseUrl}/?${params.toString()}`;
+    };
 
     const handleClick = async () => {
         try {
-
-            if(!values.name) {
+            if (!values.name) {
                 alert("Please fill the name of the project");
-            } 
+                return;
+            }
 
             const dependenciesTitles = selectedItems.map((dep: Dependencie) => dep.title);
 
@@ -111,7 +125,6 @@ const MarketPlace = () => {
                 throw new Error('Erro ao baixar o template');
             }
 
-            // Converter a resposta em blob
             const blob = await response.blob();
             const link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
@@ -159,11 +172,7 @@ const MarketPlace = () => {
                                 >
                                     Project Metadata
                                 </Typography>
-                                <CustomFormLabel
-                                    htmlFor="name-value"
-                                >
-                                    Name
-                                </CustomFormLabel>
+                                <CustomFormLabel htmlFor="name-value">Name</CustomFormLabel>
                                 <CustomTextField
                                     id="name-value"
                                     variant="outlined"
@@ -185,10 +194,10 @@ const MarketPlace = () => {
                                     onChange={e => setValue(e)}
                                 />
 
-                                <CustomFormLabel htmlFor="derscription-value">Description</CustomFormLabel>
+                                <CustomFormLabel htmlFor="description-value">Description</CustomFormLabel>
 
                                 <CustomTextField
-                                    id="derscription-value"
+                                    id="description-value"
                                     multiline
                                     rows={4}
                                     variant="outlined"
@@ -244,14 +253,13 @@ const MarketPlace = () => {
                             </Grid>
                         </Grid>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                        <Button color="primary" variant="contained" onClick={handleShare}>
+                            <Button color="primary" variant="contained" onClick={handleShare}>
                                 Share
                             </Button>
-                            <Button color="primary" variant="contained" onClick={handleClick} style={{marginLeft: '10px'}}>
+                            <Button color="primary" variant="contained" onClick={handleClick} style={{ marginLeft: '10px' }}>
                                 Generate
                             </Button>
                         </div>
-
                     </form>
                 </CardContent>
             </Card>
@@ -260,15 +268,20 @@ const MarketPlace = () => {
                 <DialogTitle>Share Project</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                    {`Use this link to share the current configuration. Attributes can be removed from the URL if you want to rely on our defaults. ${getShareLink()}`}
+                        Use this link to share the current configuration. Attributes can be removed from the URL if you want to rely on our defaults.
                     </DialogContentText>
+                    <Box sx={{ overflowX: 'auto', mt: 2 }}>
+                        <Typography variant="body2">
+                                {getShareLink()}
+                        </Typography>
+                    </Box>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
                         Close
                     </Button>
                     <Button onClick={handleCopy} color="primary">
-                        { copied ? 'Copied!' : 'Copy' } 
+                        {copied ? 'Copied' : 'Copy'}
                     </Button>
                 </DialogActions>
             </Dialog>
