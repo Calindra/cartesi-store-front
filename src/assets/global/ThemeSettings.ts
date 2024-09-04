@@ -5,7 +5,7 @@ const ThemeSettings = () => {
         activeDir: "ltr",
         activeNavbarBg: "#0b70fb",
         activeSidebarBg: "#ffffff",
-        activeMode: "dark",
+        activeMode: "light",
         activeTheme: "BLUE_THEME",
         SidebarWidth: 240
     };

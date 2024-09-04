@@ -21,6 +21,7 @@ import CustomFormLabel from '../../components/custom-elements/CustomFormLabel';
 import DependenciesFrame from './dependencies-frame/DependenciesFrame';
 import useForm from '../../hooks/useForm';
 import { Dependencie } from '../../models/dependencie';
+import logo from '../../assets/images/cartesi-logo.png'
 
 const JS_DEPENDENCIES: Dependencie[] = [
     { id: 1, title: 'express', description: "Something that describe Tech 1" },
@@ -93,9 +94,9 @@ const MarketPlace = () => {
     const handleClick = async () => {
         try {
 
-            if(!values.name) {
+            if (!values.name) {
                 alert("Please fill the name of the project");
-            } 
+            }
 
             const dependenciesTitles = selectedItems.map((dep: Dependencie) => dep.title);
 
@@ -132,8 +133,9 @@ const MarketPlace = () => {
                 display="flex"
                 alignItems="center"
             >
-                <Box flexGrow={1}>
-                    <Typography fontWeight="500" variant="h1">
+                <Box display="flex" alignItems="center">
+                    <img src={logo} width="50" />
+                    <Typography sx={{ color: '#1b1a1e', pl: 1 }} fontWeight="500" variant="h1">
                         Cartesi Marketplace
                     </Typography>
                 </Box>
@@ -244,10 +246,10 @@ const MarketPlace = () => {
                             </Grid>
                         </Grid>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                        <Button color="primary" variant="contained" onClick={handleShare}>
+                            <Button sx={{ color: '#1b1a1e' }} variant="contained" onClick={handleShare}>
                                 Share
                             </Button>
-                            <Button color="primary" variant="contained" onClick={handleClick} style={{marginLeft: '10px'}}>
+                            <Button sx={{ color: '#1b1a1e' }} variant="contained" onClick={handleClick} style={{ marginLeft: '10px' }}>
                                 Generate
                             </Button>
                         </div>
@@ -260,7 +262,7 @@ const MarketPlace = () => {
                 <DialogTitle>Share Project</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                    {`Use this link to share the current configuration. Attributes can be removed from the URL if you want to rely on our defaults. ${getShareLink()}`}
+                        {`Use this link to share the current configuration. Attributes can be removed from the URL if you want to rely on our defaults. ${getShareLink()}`}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -268,7 +270,7 @@ const MarketPlace = () => {
                         Close
                     </Button>
                     <Button onClick={handleCopy} color="primary">
-                        { copied ? 'Copied!' : 'Copy' } 
+                        {copied ? 'Copied!' : 'Copy'}
                     </Button>
                 </DialogActions>
             </Dialog>

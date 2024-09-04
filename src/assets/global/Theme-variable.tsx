@@ -20,18 +20,6 @@ import {
 
 const SidebarWidth = 265;
 const TopbarHeight = 70;
-const MenuItemIcon = {
-    InitialGuideIcon: "file-text",
-    EitriAppsIcon: "smartphone",
-    ActivityIcon: "activity",
-    UsersIcon: "users",
-    IncidentsIcon: "alert-triangle",
-    AppsIcon: "cpu",
-    SelfHostedIcon: "server",
-    OrgsIcon: "server",
-    EnvironmentIcon: "layers",
-    AbTestIcon: "shuffle",
-}
 
 const baseTheme = {
     direction: "ltr",
@@ -118,7 +106,7 @@ const themesOptions: any[] = [
         name: BLUE_THEME,
         palette: {
             primary: {
-                main: "#1a97f5",
+                main: "#00F6FF",
                 light: "#e6f4ff",
                 dark: "#1682d4"
             },
@@ -221,21 +209,19 @@ export const BuildTheme = (config: any = {}) => {
         SidebarWidth: 240
     };
 
-    // useSelector((state) => state.CustomizerReducer);
-
     const baseMode = {
         palette: {
             mode: customizer.activeMode,
             background: {
                 default:
-                    customizer.activeMode === "dark" ? "#20232a" : "#fafbfb",
+                    customizer.activeMode === "dark" ? "#fafbfb" : "#20232a",
                 dark: customizer.activeMode === "dark" ? "#1c2025" : "#ffffff",
-                paper: customizer.activeMode === "dark" ? "#282C34" : "#ffffff"
+                paper: customizer.activeMode === "dark" ? "#1b1a1e" : "#ffffff"
             },
             text: {
                 primary:
                     customizer.activeMode === "dark"
-                        ? "#e6e5e8"
+                        ? "#FFF"
                         : "rgba(0, 0, 0, 0.87)",
                 secondary:
                     customizer.activeMode === "dark" ? "#adb0bb" : "#777e89"
@@ -259,4 +245,4 @@ export const BuildTheme = (config: any = {}) => {
     return theme;
 };
 
-export { TopbarHeight, SidebarWidth, baseTheme, MenuItemIcon };
+export { TopbarHeight, SidebarWidth, baseTheme };
