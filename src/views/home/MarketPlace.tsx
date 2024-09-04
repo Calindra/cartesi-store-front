@@ -25,16 +25,15 @@ import { Dependencie } from '../../models/dependencie';
 import logo from '../../assets/images/cartesi-logo.svg'
 
 const JS_DEPENDENCIES: Dependencie[] = [
-    { id: 1, title: 'express', description: "Something that describe Tech 1" },
-    { id: 2, title: 'axios', description: "Something that describe Tech 2" },
-    { id: 3, title: 'cartesify', description: "Something that describe Tech 3" },
+    { id: 1, title: 'express', description: "Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications." },
+    { id: 2, title: 'axios', description: "Axios is a promise-based HTTP Client for node.js and the browser." },
+    { id: 3, title: 'lodash', description: "A modern JavaScript utility library delivering modularity, performance & extras." },
 ]
 
 const TS_DEPENDENCIES: Dependencie[] = [
-    { id: 4, title: 'express', description: "Something that describe Tech 4" },
-    { id: 5, title: 'axios', description: "Something that describe Tech 5" },
-    { id: 6, title: 'cartesify', description: "Something that describe Tech 6" },
-    { id: 7, title: 'viem', description: "Something that describe Tech 7" },
+    { id: 1, title: 'express', description: "Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications." },
+    { id: 2, title: 'axios', description: "Axios is a promise-based HTTP Client for node.js and the browser." },
+    { id: 3, title: 'lodash', description: "A modern JavaScript utility library delivering modularity, performance & extras." },
 ]
 
 type Libraries = {
