@@ -9,6 +9,11 @@ import {
     Grid,
     RadioGroup,
     FormControl,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle
 } from '@mui/material';
 import CustomTextField from '../../components/custom-elements/CustomTextField';
 import CustomRadio from '../../components/custom-elements/CustomRadio';
@@ -38,14 +43,16 @@ const libraries: Libraries = {
 }
 
 const MarketPlace = () => {
-    const [dependencies, setDependencies] = React.useState<Dependencie[]>([]);
     const [selectedItems, setSelectedItems] = React.useState<Dependencie[]>([]);
     const [language, setLanguage] = React.useState("Javascript")
+    const [dependencies, setDependencies] = React.useState<Dependencie[]>(libraries[language]);
+    const [open, setOpen] = React.useState(false);
+    const [copied, setCopied] = React.useState(false);
     const { values, setValue } = useForm({
-        name: "",
-        version: "",
-        description: ""
-    })
+        name: "demo",
+        version: "1.0.0",
+        description: "Demo project for Cartesi"
+    });
 
     const changeLanguage = (event: React.ChangeEvent<HTMLInputElement>) => {
         onLoadDepenciesFromLanguage(event.target.value)
@@ -57,8 +64,38 @@ const MarketPlace = () => {
         setDependencies(choosedList)
     }
 
+    const handleShare = () => {
+        setCopied(false)
+        setOpen(true);
+    };
+
+    const handleCopy = async () => {
+        let shareUrl = getShareLink()
+        try {
+            await navigator.clipboard.writeText(shareUrl);
+            setCopied(true)
+
+        } catch (err) {
+
+        }
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+        setCopied(false);
+    };
+
+
+    const getShareLink = () => {
+        return "http://google.com"
+    }
+
     const handleClick = async () => {
         try {
+
+            if(!values.name) {
+                alert("Please fill the name of the project");
+            } 
 
             const dependenciesTitles = selectedItems.map((dep: Dependencie) => dep.title);
 
@@ -207,7 +244,10 @@ const MarketPlace = () => {
                             </Grid>
                         </Grid>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <Button color="primary" variant="contained" onClick={handleClick}>
+                        <Button color="primary" variant="contained" onClick={handleShare}>
+                                Share
+                            </Button>
+                            <Button color="primary" variant="contained" onClick={handleClick} style={{marginLeft: '10px'}}>
                                 Generate
                             </Button>
                         </div>
@@ -215,6 +255,23 @@ const MarketPlace = () => {
                     </form>
                 </CardContent>
             </Card>
+
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Share Project</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                    {`Use this link to share the current configuration. Attributes can be removed from the URL if you want to rely on our defaults. ${getShareLink()}`}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Close
+                    </Button>
+                    <Button onClick={handleCopy} color="primary">
+                        { copied ? 'Copied!' : 'Copy' } 
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };
