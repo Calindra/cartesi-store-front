@@ -34,7 +34,7 @@ const DeletableItem = ({ item }: ItemWithOptionalDeleteHandlerProps<Dependencie>
                     }}
                 >
                     <Typography variant="h5">{item.title}</Typography>
-                    <Typography color="textSecondary" variant="h6" fontWeight="400">
+                    <Typography variant="h6" fontWeight="400">
                         {item.description}
                     </Typography>
                 </Box>
