@@ -23,34 +23,14 @@ import DependenciesFrame from './dependencies-frame/DependenciesFrame';
 import useForm from '../../hooks/useForm';
 import { Dependencie } from '../../models/dependencie';
 import logo from '../../assets/images/cartesi-logo.svg'
-
-const JS_DEPENDENCIES: Dependencie[] = [
-    { id: 1, title: 'express', description: "Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications." },
-    { id: 2, title: 'axios', description: "Axios is a promise-based HTTP Client for node.js and the browser." },
-    { id: 3, title: 'lodash', description: "A modern JavaScript utility library delivering modularity, performance & extras." },
-]
-
-const TS_DEPENDENCIES: Dependencie[] = [
-    { id: 1, title: 'express', description: "Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications." },
-    { id: 2, title: 'axios', description: "Axios is a promise-based HTTP Client for node.js and the browser." },
-    { id: 3, title: 'lodash', description: "A modern JavaScript utility library delivering modularity, performance & extras." },
-]
-
-type Libraries = {
-    [key: string]: Dependencie[];
-};
-
-const libraries: Libraries = {
-    "Javascript": JS_DEPENDENCIES,
-    "Typescript": TS_DEPENDENCIES
-}
+import {dependencie} from '../../utils/dep_definitions'
 
 const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:5173';
 
 const MarketPlace = () => {
     const [selectedItems, setSelectedItems] = React.useState<Dependencie[]>([]);
     const [language, setLanguage] = React.useState("Javascript")
-    const [dependencies, setDependencies] = React.useState<Dependencie[]>(libraries[language]);
+    const [dependencies, setDependencies] = React.useState<Dependencie[]>(dependencie[language]);
     const [open, setOpen] = React.useState(false);
     const [copied, setCopied] = React.useState(false);
     const { values, setValue, setAllValues } = useForm({
@@ -83,7 +63,7 @@ const MarketPlace = () => {
         if (urlDependencies) {
             const dependenciesList: (Dependencie | undefined)[] = urlDependencies
                 .split(',')
-                .map(title => libraries[language]
+                .map(title => dependencie[language]
                     .find(dep => dep.title === title)).filter(Boolean);
             setSelectedItems(dependenciesList as Dependencie[]);
         }
@@ -95,7 +75,7 @@ const MarketPlace = () => {
     };
 
     const onLoadDepenciesFromLanguage = (language: string) => {
-        const choosedList: Dependencie[] = libraries[language]
+        const choosedList: Dependencie[] = dependencie[language]
         setDependencies(choosedList)
     }
 
