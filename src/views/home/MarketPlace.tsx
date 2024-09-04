@@ -15,13 +15,14 @@ import {
     DialogContentText,
     DialogTitle
 } from '@mui/material';
+import Header from '../../components/layouts/Header'
 import CustomTextField from '../../components/custom-elements/CustomTextField';
 import CustomRadio from '../../components/custom-elements/CustomRadio';
 import CustomFormLabel from '../../components/custom-elements/CustomFormLabel';
 import DependenciesFrame from './dependencies-frame/DependenciesFrame';
 import useForm from '../../hooks/useForm';
 import { Dependencie } from '../../models/dependencie';
-import logo from '../../assets/images/cartesi-logo.png'
+import logo from '../../assets/images/cartesi-logo.svg'
 
 const JS_DEPENDENCIES: Dependencie[] = [
     { id: 1, title: 'express', description: "Something that describe Tech 1" },
@@ -61,7 +62,7 @@ const MarketPlace = () => {
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
-        
+
         // Read parameters from URL and update state
         const urlName = params.get('name');
         const urlVersion = params.get('version');
@@ -84,7 +85,7 @@ const MarketPlace = () => {
             const dependenciesList: (Dependencie | undefined)[] = urlDependencies
                 .split(',')
                 .map(title => libraries[language]
-                .find(dep => dep.title === title)).filter(Boolean);
+                    .find(dep => dep.title === title)).filter(Boolean);
             setSelectedItems(dependenciesList as Dependencie[]);
         }
     }, []);
@@ -173,6 +174,7 @@ const MarketPlace = () => {
 
     return (
         <div>
+            <Header />
             <Box
                 sx={{
                     padding: '15px 30px',
@@ -306,14 +308,14 @@ const MarketPlace = () => {
             </Card>
 
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Share Project</DialogTitle>
+                <DialogTitle sx={{ color: theme => theme.palette.grey[400] }}>Share Project</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
+                    <DialogContentText sx={{ color: theme => theme.palette.text.primary }}>
                         {`Use this link to share the current configuration. Attributes can be removed from the URL if you want to rely on our defaults.}`}
                     </DialogContentText>
                     <Box sx={{ overflowX: 'auto', mt: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#00F6FF' }}>
-                                {getShareLink()}
+                        <Typography variant="body2">
+                            {getShareLink()}
                         </Typography>
                     </Box>
                 </DialogContent>

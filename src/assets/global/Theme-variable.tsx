@@ -224,7 +224,7 @@ export const BuildTheme = (config: any = {}) => {
                         ? "#FFF"
                         : "rgba(0, 0, 0, 0.87)",
                 secondary:
-                    customizer.activeMode === "dark" ? "#adb0bb" : "#777e89"
+                    customizer.activeMode === "dark" ? "#00F6FF" : "#777e89"
             }
         }
     };
