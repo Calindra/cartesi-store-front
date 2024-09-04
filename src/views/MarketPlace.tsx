@@ -9,6 +9,11 @@ import {
     Grid,
     RadioGroup,
     FormControl,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle
 } from '@mui/material';
 import CustomTextField from '../components/custom-elements/CustomTextField';
 import CustomRadio from '../components/custom-elements/CustomRadio';
@@ -33,24 +38,56 @@ const libraries: any = {
 const FbDefaultForm = () => {
     const [dependencies, setDependencies] = React.useState([]);
     const [dependenciesDescription, setDependenciesDescription] = React.useState([]);
-    const [language, setLanguage] = React.useState("Javascript")
+    const [language, setLanguage] = React.useState("Javascript");
+    const [open, setOpen] = React.useState(false);
+    const [copied, setCopied] = React.useState(false);
     const { values, setValue } = useForm({
-        name: "",
-        version: "",
-        description: ""
-    })
+        name: "demo",
+        version: "1.0.0",
+        description: "Demo project for Cartesi"
+    });
 
     const handleChange = (event: React.ChangeEvent<{}>, values: any[]) => {
         setDependenciesDescription(values as any)
     };
 
     const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDependencies(libraries[event.target.value])
-        setLanguage(event.target.value)
+        setDependencies(libraries[event.target.value]);
+        setLanguage(event.target.value);
     };
+
+    const handleShare = () => {
+        setCopied(false)
+        setOpen(true);
+    };
+
+    const handleCopy = async () => {
+        let shareUrl = getShareLink()
+        try {
+            await navigator.clipboard.writeText(shareUrl);
+            setCopied(true)
+          
+        } catch (err) {
+        
+        }
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+        setCopied(false);
+    };
+
+
+    const getShareLink = () => {
+        return "http://google.com"
+    }
 
     const handleClick = async () => {
         try {
+
+            if(!values.name) {
+                alert("Please fill the name of the project");
+            } 
 
             const dependenciesTitles = dependenciesDescription.map((dep: any) => dep.title);
 
@@ -76,7 +113,7 @@ const FbDefaultForm = () => {
             console.error('Erro na requisição:', error);
             alert('Erro ao baixar o template');
           }
-    }
+    };
 
     return (
         <div>
@@ -167,8 +204,8 @@ const FbDefaultForm = () => {
 
                                 <FormControl component="fieldset">
                                     <RadioGroup
-                                        aria-label="gender"
-                                        name="gender1"
+                                        aria-label="language"
+                                        name="language"
                                         onChange={handleChange2}
                                     >
                                         <FormControlLabel
@@ -199,7 +236,10 @@ const FbDefaultForm = () => {
                             </Grid>
                         </Grid>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <Button color="primary" variant="contained" onClick={handleClick}>
+                            <Button color="primary" variant="contained" onClick={handleShare}>
+                                Share
+                            </Button>
+                            <Button color="primary" variant="contained" onClick={handleClick} style={{marginLeft: '10px'}}>
                                 Generate
                             </Button>
                         </div>
@@ -207,6 +247,24 @@ const FbDefaultForm = () => {
                     </form>
                 </CardContent>
             </Card>
+
+            {/* Modal */}
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Share Project</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                    {`Use this link to share the current configuration. Attributes can be removed from the URL if you want to rely on our defaults. ${getShareLink()}`}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Close
+                    </Button>
+                    <Button onClick={handleCopy} color="primary">
+                        { copied ? 'Copied!' : 'Copy' } 
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };
