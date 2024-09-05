@@ -233,13 +233,13 @@ export const BuildTheme = (config: any = {}) => {
         [themeOptions] = themesOptions;
     }
 
-    const mergedTheme = {
-        ...{},
-        ...baseTheme,
-        ...baseMode,
-        ...themeOptions,
-        direction: config.direction
-    };
+    // const mergedTheme = {
+    //     ...{},
+    //     ...baseTheme,
+    //     ...baseMode,
+    //     ...themeOptions,
+    //     direction: config.direction
+    // };
 
     const theme: any = createTheme(_.merge({}, baseTheme, baseMode, themeOptions, { direction: config.direction }))
     return theme;

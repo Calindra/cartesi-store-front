@@ -52,14 +52,13 @@ const TrashComponent = ({ item, deleteHandler }: ItemWithOptionalDeleteHandlerPr
     return (
         <Box>
             <Tooltip title="Delete" placement="top">
-                <IconButton onClick={handleDelete}>
+                <IconButton onClick={handleDelete}
+                    sx={{
+                        color: (theme: Theme) => theme.palette.grey.A200,
+                    }}>
                     <FeatherIcon
                         icon="trash"
-                        width="18"
-                        height="18"
-                        sx={{
-                            color: (theme: Theme) => theme.palette.grey.A200,
-                        }}
+                        size={18}
                     />
                 </IconButton>
             </Tooltip>
